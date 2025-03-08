@@ -1,6 +1,6 @@
 import { ArrowRight, AlertTriangle, Search, X } from 'lucide-react-native';
 import React, { useState, useEffect } from 'react';
-import { Text, TextInput, TouchableOpacity, View, FlatList, Keyboard } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View, Keyboard } from 'react-native';
 
 // Define TypeScript interfaces
 interface Interaction {
@@ -63,6 +63,9 @@ const InteractionChecker: React.FC = () => {
   const [selectedInteraction, setSelectedInteraction] = useState<Interaction | null>(null);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
+  // Maximum number of suggestions to show
+  const MAX_SUGGESTIONS = 5;
+
   // Update suggestions when search text changes
   useEffect(() => {
     if (searchText.trim() === '') {
@@ -71,9 +74,10 @@ const InteractionChecker: React.FC = () => {
       return;
     }
 
-    const filtered = interactionDatabase.filter(item =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filtered = interactionDatabase
+      .filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))
+      .slice(0, MAX_SUGGESTIONS); // Limit to top 10 results for performance
+
     setSuggestions(filtered);
     setShowSuggestions(true);
   }, [searchText]);
@@ -98,62 +102,36 @@ const InteractionChecker: React.FC = () => {
     return 'text-yellow-500';
   };
 
-  const renderSuggestionItem = ({ item }: { item: Interaction }) => (
-    <TouchableOpacity
-      className="flex-row justify-between items-center py-3 px-4 border-b border-gray-100"
-      onPress={() => handleSelectItem(item)}
-    >
-      <Text className="text-base font-medium">{item.name}</Text>
-      <View className="bg-gray-100 px-3 py-1 rounded-full">
-        <Text className="text-gray-500 text-sm">{item.type}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  // Render suggestions without using FlatList
+  const renderSuggestions = () => {
+    if (!showSuggestions || suggestions.length === 0) {
+      return null;
+    }
 
-  const renderContent = () => {
-    if (selectedInteraction) {
-      return (
-        <View className="border-t border-gray-100">
-          <View className="border-l-4 border-red-500 p-4">
-            <View className="flex-row items-center mb-2">
-              <View className="bg-red-100 w-8 h-8 rounded-full justify-center items-center mr-2">
-                <AlertTriangle size={18} color="#DC2626" />
-              </View>
-              <Text className="text-lg font-bold">{selectedInteraction.name}</Text>
-              <Text className={`ml-2 ${getSeverityColor(selectedInteraction.severity)}`}>
-                {selectedInteraction.severity}
-              </Text>
-            </View>
-            <Text className="text-gray-600 mb-2">{selectedInteraction.description}</Text>
-            <View>
-              <Text className="font-bold text-gray-700">Recommendation:</Text>
-              <Text className="text-gray-600">{selectedInteraction.recommendation}</Text>
-            </View>
-          </View>
+    return (
+      <View className="border rounded-lg border-gray-100 mx-4 mb-4">
+        {suggestions.map(item => (
           <TouchableOpacity
-            className="p-4 border-t border-gray-100"
-            onPress={clearSearch}
+            key={item.name}
+            className="flex-row justify-between items-center py-3 px-4 border-b border-gray-100"
+            onPress={() => handleSelectItem(item)}
           >
-            <Text className="text-blue-500 text-center">Back to search</Text>
+            <Text className="text-base font-medium">{item.name}</Text>
+            <View className="bg-gray-100 px-3 py-1 rounded-full">
+              <Text className="text-gray-500 text-sm">{item.type}</Text>
+            </View>
           </TouchableOpacity>
-        </View>
-      );
-    }
+        ))}
+        {suggestions.length === MAX_SUGGESTIONS && (
+          <Text className="py-2 px-4 italic text-xs text-gray-500">
+            Showing top {MAX_SUGGESTIONS} results. Refine your search for more specific results.
+          </Text>
+        )}
+      </View>
+    );
+  };
 
-    if (showSuggestions && suggestions.length > 0) {
-      return (
-        <View className="border-t border-gray-100 max-h-64">
-          <FlatList
-            data={suggestions}
-            renderItem={renderSuggestionItem}
-            keyExtractor={item => item.name}
-            keyboardShouldPersistTaps="handled"
-            nestedScrollEnabled={true}
-          />
-        </View>
-      );
-    }
-
+  const renderNoResults = () => {
     if (showSuggestions && suggestions.length === 0 && searchText.trim() !== '') {
       return (
         <View className="border-t border-gray-100 p-4">
@@ -161,17 +139,50 @@ const InteractionChecker: React.FC = () => {
         </View>
       );
     }
-
     return null;
+  };
+
+  const renderInteractionDetails = () => {
+    if (!selectedInteraction) {
+      return null;
+    }
+
+    return (
+      <View className="mx-4 rounded-lg mb-4">
+        <View className="border border-l-4 border-red-100 border-l-red-500 p-4 rounded-lg bg-red-50">
+          <View className="flex-row items-center mb-2">
+            <View className="bg-red-100 w-8 h-8 rounded-full justify-center items-center mr-2">
+              <AlertTriangle size={18} color="#DC2626" />
+            </View>
+            <Text className="text-lg font-bold">{selectedInteraction.name}</Text>
+            <Text className={`ml-2 ${getSeverityColor(selectedInteraction.severity)}`}>
+              {selectedInteraction.severity}
+            </Text>
+          </View>
+          <Text className="text-gray-600 mb-2">{selectedInteraction.description}</Text>
+          <View>
+            <Text className="font-bold text-gray-700">Recommendation:</Text>
+            <Text className="text-gray-600">{selectedInteraction.recommendation}</Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          className="p-4 border-t border-gray-100"
+          onPress={clearSearch}
+        >
+          <Text className="text-blue-500 text-center">Back to search</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (
     <View className="bg-white rounded-lg m-4 border border-gray-200">
       <View className="p-4">
         <Text className="font-bold mb-3 text-gray-700 text-[16px]">Check Interactions</Text>
+        {/* <Text className="text-sm text-gray-600 mb-2">Check if your medication(s) interacts with other medications or with specific foods.</Text> */}
         <View className="flex-row items-center relative">
           <View className="flex-row items-center flex-1 h-10 bg-white rounded-lg px-3 mr-2 border border-gray-100">
-            <Search size={18} color="#6B7280" className="ml-2 mr-2" />
+            <Search size={16} color="#6B7280" />
             <TextInput
               className="flex-1 h-10 pl-2"
               placeholder="Search medication or food..."
@@ -195,7 +206,9 @@ const InteractionChecker: React.FC = () => {
         </View>
       </View>
 
-      {renderContent()}
+      {renderSuggestions()}
+      {renderNoResults()}
+      {renderInteractionDetails()}
     </View>
   );
 };
