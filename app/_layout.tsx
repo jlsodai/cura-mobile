@@ -10,7 +10,10 @@ export default function RootLayout() {
   return (
     <>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="index" />
+        <Stack.Screen name="medications" />
+        {/* <Stack.Screen name="food" /> */}
+        {/* <Stack.Screen name="profile" /> */}
       </Stack>
       <StatusBar style="auto" />
     </>
