@@ -176,14 +176,14 @@ const InteractionChecker: React.FC = () => {
   };
 
   return (
-    <View className="rounded-lg mx-4 mb-4 border border-gray-200">
+    <View className="rounded-lg mx-4 mb-4 border border-gray-200 bg-white">
       <View className="p-4">
         <Text className="text-sm text-gray-600 mb-2">Check if your medication(s) interacts with other medications or with specific foods.</Text>
         <View className="flex-row items-center relative">
           <View className="flex-row items-center flex-1 h-12 rounded-lg px-3 mr-2 border border-gray-200">
             <Search size={16} color="#6B7280" />
             <TextInput
-              className="flex-1 h-10 pl-2"
+              className="flex-1 h-12 pl-2"
               placeholder="Search medication or food..."
               placeholderTextColor="#6B7280"
               value={searchText}
