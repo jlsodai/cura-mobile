@@ -109,7 +109,7 @@ const InteractionChecker: React.FC = () => {
     }
 
     return (
-      <View className="border rounded-lg border-gray-200 mx-4 mb-4">
+      <View className="border rounded-lg border-gray-200 mx-4 mb-4 bg-white">
         {suggestions.map(item => (
           <TouchableOpacity
             key={item.name}
@@ -165,22 +165,22 @@ const InteractionChecker: React.FC = () => {
             <Text className="text-gray-600">{selectedInteraction.recommendation}</Text>
           </View>
         </View>
-        <TouchableOpacity
-          className="p-4 border-t border-gray-200"
+        {/* <TouchableOpacity
+          className="p-4 border-t border-gray-200 bg-[#3B82F6] py-3 rounded-lg justify-center items-center mt-4"
           onPress={clearSearch}
         >
-          <Text className="text-blue-500 text-center">Back to search</Text>
-        </TouchableOpacity>
+          <Text className="text-white text-center">Back to search</Text>
+        </TouchableOpacity> */}
       </View>
     );
   };
 
   return (
-    <View className="rounded-lg mx-4 mb-4 border border-gray-200 bg-white">
+    <View className="rounded-lg">
       <View className="p-4">
-        <Text className="text-sm text-gray-600 mb-2">Check if your medication(s) interacts with other medications or with specific foods.</Text>
+        {/* <Text className="text-sm text-gray-600 mb-2">Check if your medication(s) interacts with other medications or with specific foods.</Text> */}
         <View className="flex-row items-center relative">
-          <View className="flex-row items-center flex-1 h-12 rounded-lg px-3 mr-2 border border-gray-200 bg-gray-50">
+          <View className="flex-row items-center flex-1 h-12 rounded-lg px-3 border border-gray-200 bg-white">
             <Search size={16} color="#6B7280" />
             <TextInput
               className="flex-1 h-12 pl-2"

@@ -18,6 +18,8 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
+        <Text className="text-sm text-gray-600 max-w-[80%] mx-4">Check if your medication(s) interacts with other medications or with specific foods.</Text>
+
         <InteractionChecker />
 
         <View className="bg-white p-4 rounded-lg m-4 border border-gray-200 mt-0">
