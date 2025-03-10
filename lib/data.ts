@@ -517,11 +517,4 @@ export const interactionDatabase: Interaction[] = [
     description: "May cause slight changes in blood sugar levels",
     recommendation: "Monitor blood sugar levels if using safinamide",
   },
-  {
-    name: "Phenelzine",
-    type: "medication",
-    severity: "Low",
-    description: "May cause slight changes in blood sugar levels",
-    recommendation: "Monitor blood sugar levels if using phenelzine",
-  },
 ];
