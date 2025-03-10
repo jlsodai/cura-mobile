@@ -109,11 +109,11 @@ const InteractionChecker: React.FC = () => {
     }
 
     return (
-      <View className="border rounded-lg border-gray-100 mx-4 mb-4">
+      <View className="border rounded-lg border-gray-200 mx-4 mb-4">
         {suggestions.map(item => (
           <TouchableOpacity
             key={item.name}
-            className="flex-row justify-between items-center py-3 px-4 border-b border-gray-100"
+            className="flex-row justify-between items-center py-3 px-4 border-b border-gray-200"
             onPress={() => handleSelectItem(item)}
           >
             <Text className="text-base font-medium">{item.name}</Text>
@@ -134,7 +134,7 @@ const InteractionChecker: React.FC = () => {
   const renderNoResults = () => {
     if (showSuggestions && suggestions.length === 0 && searchText.trim() !== '') {
       return (
-        <View className="border-t border-gray-100 p-4">
+        <View className="border-t border-gray-200 p-4">
           <Text className="text-center py-2 text-gray-500">No interactions found</Text>
         </View>
       );
@@ -166,7 +166,7 @@ const InteractionChecker: React.FC = () => {
           </View>
         </View>
         <TouchableOpacity
-          className="p-4 border-t border-gray-100"
+          className="p-4 border-t border-gray-200"
           onPress={clearSearch}
         >
           <Text className="text-blue-500 text-center">Back to search</Text>
@@ -176,12 +176,11 @@ const InteractionChecker: React.FC = () => {
   };
 
   return (
-    <View className="bg-white rounded-lg m-4 border border-gray-200">
+    <View className="rounded-lg mx-4 mb-4 border border-gray-200">
       <View className="p-4">
-        <Text className="font-bold mb-3 text-gray-700 text-[16px]">Check Interactions</Text>
-        {/* <Text className="text-sm text-gray-600 mb-2">Check if your medication(s) interacts with other medications or with specific foods.</Text> */}
+        <Text className="text-sm text-gray-600 mb-2">Check if your medication(s) interacts with other medications or with specific foods.</Text>
         <View className="flex-row items-center relative">
-          <View className="flex-row items-center flex-1 h-10 bg-white rounded-lg px-3 mr-2 border border-gray-100">
+          <View className="flex-row items-center flex-1 h-12 rounded-lg px-3 mr-2 border border-gray-200">
             <Search size={16} color="#6B7280" />
             <TextInput
               className="flex-1 h-10 pl-2"

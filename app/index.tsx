@@ -11,13 +11,7 @@ export default function HomeScreen() {
       <ScrollView className="flex-1">
         <View className="flex-row justify-between items-center p-4">
           <View className="flex-row items-center gap-3">
-            <View className="w-10 h-10 bg-blue-500 rounded-full justify-center items-center">
-              <Text className="text-white text-lg font-bold">S</Text>
-            </View>
-            <View>
-              <Text className="font-bold">Hi, Sarah</Text>
-              <Text>Stay healthy today</Text>
-            </View>
+            <Text className="font-medium text-[24px]">Stay safe, stay informed!</Text>
           </View>
           <TouchableOpacity className="w-10 h-10 bg-gray-200 rounded-lg justify-center items-center">
             <Bell size={24} color="#1F2937" />
