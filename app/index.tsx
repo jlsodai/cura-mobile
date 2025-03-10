@@ -1,11 +1,14 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Bell, Pill, UtensilsCrossed } from 'lucide-react-native';
+import { Bell, Pill, UtensilsCrossed, AlertTriangle, X } from 'lucide-react-native';
 import InteractionChecker from '@/components/InteractionChecker';
 import GlucoseMonitor from '@/components/GlucoseMonitor';
 import TodaysMedication from '@/components/TodaysMedication';
+import { useState } from 'react';
 
 export default function HomeScreen() {
+  const [showWeatherAlert, setShowWeatherAlert] = useState(true);
+
   return (
     <SafeAreaView className="flex-1 bg-gray-100 flex gap-0">
       <ScrollView className="flex-1">
@@ -21,6 +24,27 @@ export default function HomeScreen() {
         <Text className="text-sm text-gray-600 max-w-[80%] mx-4">Check if your medication(s) interacts with other medications or with specific foods.</Text>
 
         <InteractionChecker />
+
+        {/* Weather Alert Component */}
+        {showWeatherAlert && (
+          <View className="bg-red-50 p-4 rounded-lg mx-4 mb-4 border border-red-200">
+            <View className="flex-row justify-between items-start">
+              <View className="flex-row items-center">
+                <AlertTriangle size={24} color="#B91C1C" />
+                <View className="ml-3">
+                  <Text className="font-bold text-red-700 text-lg">Important Weather Alert</Text>
+                  <Text className="text-red-700">High pollen levels detected in your area</Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={() => setShowWeatherAlert(false)}
+                hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              >
+                <X size={20} color="#B91C1C" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
         <View className="bg-white p-4 rounded-lg m-4 border border-gray-200 mt-0">
           <View className="flex-row items-center justify-between">
