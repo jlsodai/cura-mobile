@@ -1,61 +1,7 @@
-import { ArrowRight, AlertTriangle, Search, X } from 'lucide-react-native';
+import { interactionDatabase } from '@/lib/data';
+import { AlertTriangle, Search, X } from 'lucide-react-native';
 import React, { useState, useEffect } from 'react';
 import { Text, TextInput, TouchableOpacity, View, Keyboard } from 'react-native';
-
-// Define TypeScript interfaces
-interface Interaction {
-  name: string;
-  type: 'food' | 'medication';
-  severity: string;
-  description: string;
-  recommendation: string;
-}
-
-// Sample interaction database
-const interactionDatabase: Interaction[] = [
-  {
-    name: "Grapefruit",
-    type: "food",
-    severity: "High Risk",
-    description: "Can increase the concentration of Glipizide in your blood",
-    recommendation: "Avoid grapefruit and grapefruit juice while taking Glipizide",
-  },
-  {
-    name: "Alcohol",
-    type: "food",
-    severity: "High Risk",
-    description: "Can cause low blood sugar when combined with diabetes medications",
-    recommendation: "Avoid alcohol or consult your doctor for safe limits",
-  },
-  {
-    name: "Salt",
-    type: "food",
-    severity: "Medium Risk",
-    description: "Can affect blood pressure medications",
-    recommendation: "Limit salt intake while on blood pressure medications",
-  },
-  {
-    name: "NSAIDs (e.g., Ibuprofen)",
-    type: "medication",
-    severity: "Medium Risk",
-    description: "May reduce effectiveness of some blood pressure medications",
-    recommendation: "Consult your doctor before taking NSAIDs regularly",
-  },
-  {
-    name: "Beta Blockers",
-    type: "medication",
-    severity: "High Risk",
-    description: "Can interact with certain diabetes medications",
-    recommendation: "Follow doctor's guidance if taking both medications",
-  },
-  {
-    name: "Caffeine",
-    type: "food",
-    severity: "Low Risk",
-    description: "May interact with certain anxiety medications",
-    recommendation: "Monitor caffeine intake while on these medications",
-  },
-];
 
 const InteractionChecker: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
